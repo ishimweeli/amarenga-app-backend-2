@@ -19,4 +19,4 @@ app.use(express.json());
 app.use('/ifs', require('./routes/amarenga'))
 app.use('/ifs/user', require('./routes/user'))
 app.use("/ifs/user", require('./routes/user'));
-app.listen(5000, () => console.log("Server is running"));
+app.listen(process.env.PORT || 5000, () => console.log("Server is running"));
