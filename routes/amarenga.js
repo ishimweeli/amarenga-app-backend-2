@@ -1,3 +1,7 @@
+var http = require('http');
+
+const https = require("https");
+
 const router = require("express").Router();
 const cloudinary = require("../utils/cloudinary");
 const upload = require("../utils/multer");

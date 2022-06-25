@@ -1,3 +1,5 @@
+
+const cors = require('cors');
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -16,6 +18,14 @@ mongoose
 // Middleware
 app.use(express.json());
 // Route
+const corsConfig = {
+  origin: true,
+  credentials: true,
+};
+app.use(cors(corsConfig));
+app.options('*', cors(corsConfig));
+app.enable('trust proxy');
+
 app.use('/ifs', require('./routes/amarenga'))
 app.use('/ifs/user', require('./routes/user'))
 app.use("/ifs/user", require('./routes/user'));
