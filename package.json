@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start":"node index",
     "test": "test",
-    "dev": "nodemon index",
-    "start":"node index"
+    "dev": "nodemon index"
+    
   },
   "author": "eliab",
   "license": "ISC",
