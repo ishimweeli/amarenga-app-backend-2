@@ -6,26 +6,34 @@ const router = require("express").Router();
 const cloudinary = require("../utils/cloudinary");
 const upload = require("../utils/multer");
 const Amarenga = require("../models/amarenga"); 
+
 router.post("/amarenga", upload.single("image"), async (req, res) => {
+  // console.log(req)
+  console.log("salamaaa")
+
   try {
+
     // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path);
      // Create new user
       let amarenga = new Amarenga({
         kinyarwanda: req.body.kinyarwanda,
         english: req.body.english,
-      french: req.body.french,
-      name: req.body.name,
-      avatar: result.secure_url,
-      cloudinary_id: result.public_id,
-    });
+        french: req.body.french,
+        avatar: result.secure_url,
+        cloudinary_id: result.public_id
+      });
+    console.log(req.body)
     // Save user
     await amarenga.save();
+    console.log("The saved marenga is:", amarenga)
     res.json(amarenga);
   } catch (err) {
-    console.log(err);
+    // console.log(err.message);
+    res.json({ error: err.message })
     }
 });
+
   
 
 router.get("/amarenga", async (req, res) => {

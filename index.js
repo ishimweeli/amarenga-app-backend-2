@@ -26,7 +26,7 @@ app.use(cors(corsConfig));
 app.options('*', cors(corsConfig));
 app.enable('trust proxy');
 
-app.use('/ifs', require('./routes/amarenga'))
-app.use('/ifs/user', require('./routes/user'))
+app.use('/ifs', require('./routes/amarenga'));
+app.use('/ifs/user', require('./routes/user'));
 app.use("/ifs/user", require('./routes/user'));
 app.listen(process.env.PORT || 5000, () => console.log("Server is running"));
