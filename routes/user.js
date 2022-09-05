@@ -1,39 +1,54 @@
-const bcrypt = require("bcrypt");
-  const express = require("express");
-  const User = require("../models/user");
-  const router = express.Router();
-  // signup route
-  router.post("/signup", async (req, res) => {
-    const body = req.body;
+const express = require('express')
+const User = require('../models/User')
 
-    if (!(body.email && body.password)) {
-      return res.status(400).send({ error: "Data not formatted properly" });
+const router = express.Router()
+
+router.post('/users', async (req, res) => {
+    // Create a new user
+    try {
+        const user = new User(req.body)
+        await user.save()
+        const token = await user.generateAuthToken()
+        res.status(201).send({ user, token })
+    } catch (error) {
+        res.status(400).send(error)
+    }
+})
+
+router.post('/users/login', async(req, res) => {
+    //Login a registered user
+    try {
+        const { email, password } = req.body
+        const user = await User.findByCredentials(email, password)
+        if (!user) {
+            return res.status(401).send({error: 'Login failed! Check authentication credentials'})
+        }
+         
+        const token = await user.generateAuthToken()
+      const cookiesOption= res.cookie('jwt', token);
+
+
+        // res.send({ user, token ,cookiesOption})
+
+    res.json("logged in successfully")
+
+    } catch (error) {
+        // res.status(400,).send(error)
+        console.log(error)
     }
 
-    // creating a new mongoose doc from user data
-    const user = new User(body);
-    // generate salt to hash password
-    const salt = await bcrypt.genSalt(10);
-    // now we set user password to hashed password
-    user.password = await bcrypt.hash(user.password, salt);
-    user.save().then((doc) => res.status(201).send(doc));
-  });
+})
 
-  // login route
-  router.post("/login", async (req, res) => {
-    const body = req.body;
-    const user = await User.findOne({ email: body.email });
-    if (user) {
-      // check user password with hashed password stored in the database
-      const validPassword = await bcrypt.compare(body.password, user.password);
-      if (validPassword) {
-        res.status(200).json({ message: "Valid password" });
-      } else {
-        res.status(400).json({ error: "Invalid Password" });
-      }
-    } else {
-      res.status(401).json({ error: "User does not exist" });
-    }
-  });
+router.get('/user/logout', async (req, res) => {
 
-  module.exports = router;
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+    
+  });
+ 
+  res.status(200).json({ status: 'successfully logged out', data: null });
+});
+
+
+module.exports = router
