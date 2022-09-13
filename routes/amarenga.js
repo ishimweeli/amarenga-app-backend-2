@@ -45,9 +45,10 @@ router.post("/amarenga",isAuthenticated, upload.single("image"), async (req, res
 router.get("/amarenga", async (req, res) => {
     try {
       let amarenga= await Amarenga.find();
+     
       res.json(amarenga);
     } catch (err) {
-      console.log(err);
+     res.json(error)
     }
 });
 
@@ -60,10 +61,12 @@ router.delete("/amarenga/delete/:id",isAuthenticated, async (req, res) => {
     // Delete image from cloudinary
     await cloudinary.uploader.destroy(amarenga.cloudinary_id);
     // // Delete user from db
-    await Amarenga.deleteOne();
+    await Amarenga.deleteOne(amarenga)
+
     res.json(console.log("sucess"));
-  } catch (err) {
-    console.log(err);
+    
+  } catch (error) {
+    console.log(error);
   }
 });
 

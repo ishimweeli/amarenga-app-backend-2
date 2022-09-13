@@ -3,7 +3,7 @@ const User = require('../models/User')
 
 const router = express.Router()
 
-router.post('/users', async (req, res) => {
+router.post('/users/register', async (req, res) => {
     // Create a new user
     try {
         const user = new User(req.body)
@@ -11,30 +11,32 @@ router.post('/users', async (req, res) => {
         const token = await user.generateAuthToken()
         res.status(201).send({ user, token })
     } catch (error) {
-        res.status(400).send(error)
+         res.status(401).json({message: "check email and password", status: 401})
     }
 })
 
 router.post('/users/login', async(req, res) => {
+  
     //Login a registered user
     try {
         const { email, password } = req.body
         const user = await User.findByCredentials(email, password)
         if (!user) {
-            return res.status(401).send({error: 'Login failed! Check authentication credentials'})
+            res.status(400).json({message: "check email and password", status: 400})
         }
          
         const token = await user.generateAuthToken()
-      const cookiesOption= res.cookie('jwt', token);
+      res.cookie('jwt', token)
+      res.status(200).send({jwt:token})
 
 
-        // res.send({ user, token ,cookiesOption})
+      
 
-    res.json("logged in successfully")
+    // res.json("logged in successfully")
 
     } catch (error) {
-        // res.status(400,).send(error)
-        console.log(error)
+        res.status(401).json({message: "check email and password", status: 401})
+       
     }
 
 })
