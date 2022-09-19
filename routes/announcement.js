@@ -52,4 +52,20 @@ router.get("/announcement", async (req, res) => {
     }
 });
 
+
+router.delete("/announcement/delete/:id",isAuthenticated, async (req, res) => {
+  try {
+    // Find user by id
+    let announcement = await Announcement.findById(req.params.id);
+    // Delete image from cloudinary
+    await cloudinary.uploader.destroy(announcement.cloudinary_id);
+    // // Delete user from db
+    await Announcement.deleteOne(announcement)
+
+    res.json(console.log("sucess"));
+    
+  } catch (error) {
+    console.log(error);
+  }
+});
  module.exports = router;
