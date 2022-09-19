@@ -24,9 +24,9 @@ router.post('/users/login', async(req, res) => {
         if (!user) {
             res.status(400).json({message: "check email and password", status: 400})
         }
-         
+         console.log("hello")
         const token = await user.generateAuthToken()
-      res.cookie('jwt', token)
+      res.cookie('jwt', token,user)
       res.status(200).send({jwt:token})
 
 
