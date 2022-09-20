@@ -21,14 +21,19 @@ const app = express()
 //     "Origin, X-Requested-With, Content-Type, Accept"
 //   );
 //  next();
-app.use(cors())
+// app.use(cors())
  
 // });
 
-// app.use(cors({
-//     origin: '*'
-// }));
+
 app.use(express.json())
+
+app.use(cors({
+    
+    origin:process.env.FRONTEND_URL,
+    credentials:true
+}
+    ));
 app.use(cookieParser());
 app.use(userRouter)
 app.use(amarengaRouter)

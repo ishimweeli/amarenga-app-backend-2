@@ -28,7 +28,7 @@ router.post("/announcement",isAuthenticated, upload.single("file"), async (req, 
         cloudinary_id: result.public_id
       });
 
-    console.log(req.body)
+    // console.log(req.body)
     // Save user
 
     await announcement.save();

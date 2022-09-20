@@ -26,7 +26,7 @@ router.post('/users/login', async(req, res) => {
         }
          console.log("hello")
         const token = await user.generateAuthToken()
-      res.cookie('jwt', token,user)
+      res.cookie('jwt', token)
       res.status(200).send({jwt:token})
 
 
