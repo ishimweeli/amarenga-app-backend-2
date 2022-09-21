@@ -26,16 +26,17 @@ router.post('/users/login', async(req, res) => {
         }
          console.log("hello")
         const token = await user.generateAuthToken()
+        
+      //  window={};
+      //   window.localStorage.setItem("jwt", token)
         return res
-    .cookie("jwt", token, {
-      httpOnly: true,
+    .cookie("jwt", token)
+    
    
-    })
-    .status(200)
-    .json({ message: "Logged in successfully 😊 👌" });
-      // res.cookie('jwt', token)
-      // res.status(200).send({jwt:token})
-
+    
+    .json({ message: "Logged in successfully 😊 👌" , jwt:token});
+   
+  
 
       
 
@@ -43,6 +44,7 @@ router.post('/users/login', async(req, res) => {
 
     } catch (error) {
         res.status(401).json({message: "check email and password", status: 401})
+        console.log(error)
        
     }
 

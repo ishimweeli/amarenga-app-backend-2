@@ -4,8 +4,7 @@ const isAuthenticated = async (req,res,next)=>{
     try {
         const token = req.cookies.jwt;
         if(!token){
-            const message="please try and login again"
-       return next(message)
+            res.status(401).json({message: "please try and login again", status: 401})
         }
         const verify = await jwt.verify(token,process.env.JWT_KEY);
         
@@ -13,9 +12,8 @@ const isAuthenticated = async (req,res,next)=>{
         next();
 
     } catch (error) {
-       return next(error); 
-    // const err="wrong user please login"
-    // return err
+    //    return next(error); 
+    {res.json("wrong user please login")}
     }
 }
 
