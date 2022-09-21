@@ -9,7 +9,7 @@ const Amarenga = require("../models/amarenga");
 const  isAuthenticated = require("../middleware/checkAuth");
 const Announcement = require('../models/announcement');
 
-router.post("/announcement",isAuthenticated, upload.single("file"), async (req, res) => {
+router.post("/announcement", upload.single("file"), async (req, res) => {
   // console.log(req)
   console.log("salamaaa")
 
@@ -53,7 +53,7 @@ router.get("/announcement", async (req, res) => {
 });
 
 
-router.delete("/announcement/delete/:id",isAuthenticated, async (req, res) => {
+router.delete("/announcement/delete/:id", async (req, res) => {
   try {
     // Find user by id
     let announcement = await Announcement.findById(req.params.id);

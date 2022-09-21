@@ -8,7 +8,7 @@ const upload = require("../utils/multer");
 const Amarenga = require("../models/amarenga"); 
 const  isAuthenticated = require("../middleware/checkAuth")
 
-router.post("/amarenga",isAuthenticated, upload.single("image"), async (req, res) => {
+router.post("/amarenga",upload.single("image"), async (req, res) => {
   // console.log(req)
   console.log("salamaaa")
 
@@ -54,7 +54,7 @@ router.get("/amarenga", async (req, res) => {
 
 
 
-router.delete("/amarenga/delete/:id",isAuthenticated, async (req, res) => {
+router.delete("/amarenga/delete/:id", async (req, res) => {
   try {
     // Find user by id
     let amarenga = await Amarenga.findById(req.params.id);
@@ -73,7 +73,7 @@ router.delete("/amarenga/delete/:id",isAuthenticated, async (req, res) => {
 
 
 
-router.put("/amarenga/update/:id",isAuthenticated, upload.single("image"), async (req, res) => {
+router.put("/amarenga/update/:id",upload.single("image"), async (req, res) => {
   try {
     let amarenga = await Amarenga.findById(req.params.id);
     // Delete image from cloudinary
