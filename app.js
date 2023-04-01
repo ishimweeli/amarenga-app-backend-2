@@ -39,7 +39,9 @@ app.use(userRouter)
 app.use(amarengaRouter)
 app.use(announcementRouter)
 
-
+app.get('/', (req, res) => {
+    res.sendStatus(200)
+  })
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
 })
