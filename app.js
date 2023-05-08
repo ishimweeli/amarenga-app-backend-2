@@ -1,7 +1,8 @@
 const express = require('express')
 const userRouter = require('./routes/user')
 const amarengaRouter=require('./routes/amarenga')
-const announcementRouter=require('./routes/announcement')
+const announcementRouter = require('./routes/announcement')
+const publicationsRouter = require('./routes/publications')
 const cookieParser = require('cookie-parser');
 var cors = require('cors');
 
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use(userRouter)
 app.use(amarengaRouter)
 app.use(announcementRouter)
+app.use(publicationsRouter)
 
 app.get('/', (req, res) => {
     res.sendStatus(200)
