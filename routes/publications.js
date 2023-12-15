@@ -5,14 +5,11 @@ const Publications = require("../models/publications");
 
 router.post("/publication", upload.fields([ { name: "image", maxCount: 1 }, { name: "pdf", maxCount: 1 } ]), async (req, res) => {
     try {
-        const imageResult = await cloudinary.uploader.upload(req.files.image[ 0 ].path);
         const pdfResult = await cloudinary.uploader.upload(req.files.pdf[ 0 ].path);
 
         const publications = new Publications({
             title: req.body.title,
             description: req.body.description,
-            image: imageResult.secure_url,
-            cloudinary_id: imageResult.public_id,
             pdf: pdfResult.secure_url,
             pdf_cloudinary_id: pdfResult.public_id,
         });
@@ -22,7 +19,7 @@ router.post("/publication", upload.fields([ { name: "image", maxCount: 1 }, { na
         res.json(publications);
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal server error",err });
     }
 });
 
@@ -39,8 +36,6 @@ router.get("/publication", async (req, res) => {
 router.delete("/publication/:id", async (req, res) => {
     try {
         const publications = await Publications.findById(req.params.id);
-
-        await cloudinary.uploader.destroy(publications.cloudinary_id);
         await cloudinary.uploader.destroy(publications.pdf_cloudinary_id);
 
         await Publications.deleteOne(publications);
@@ -56,15 +51,7 @@ router.put("/publication/:id", upload.fields([ { name: "image", maxCount: 1 }, {
     try {
         const publication = await Publication.findById(req.params.id);
 
-        if (req.files.image && req.files.image.length > 0) {
-            await cloudinary.uploader.destroy(publication.cloudinary_id);
-
-            const imageResult = await cloudinary.uploader.upload(req.files.image[ 0 ].path);
-
-            publication.image = imageResult.secure_url;
-            publication.cloudinary_id = imageResult.public_id;
-        }
-
+    
         if (req.files.pdf && req.files.pdf.length > 0) {
             await cloudinary.uploader.destroy(publication.pdf_cloudinary_id);
 
