@@ -33,7 +33,7 @@ router.get("/publication", async (req, res) => {
     }
 });
 
-router.delete("/publication/:id", async (req, res) => {
+router.delete("/publication/delete/:id", async (req, res) => {
     try {
         const publications = await Publications.findById(req.params.id);
         await cloudinary.uploader.destroy(publications.pdf_cloudinary_id);
