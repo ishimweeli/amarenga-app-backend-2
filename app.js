@@ -14,7 +14,8 @@ const app = express();
 // List of allowed origins
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://gs-institut-filippo-smaldone.vercel.app'
+  'https://gs-institut-filippo-smaldone.vercel.app',
+  'https://gsifsnyamirambo.rw'
 ];
 
 // Middleware to parse incoming requests as JSON
